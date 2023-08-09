@@ -41,19 +41,16 @@ const Note = sequelize.define('Note', {
   },
   content: {
     type: DataTypes.TEXT,
-    allowNull: false,
   },
 });
 
 // Set up associations
-User.hasMany(Note,{foreignKey: {
-  name: "userId", 
-  allowNull: false
-}} );
-Note.belongsTo(User,{foreignKey: {
-  name: "userId", 
-  allowNull: false
-}} );
+User.hasMany(Note,{
+  foreignKey: 'userId'
+});
+Note.belongsTo(User,{
+  foreignKey: 'userId'
+});
 
 module.exports = {
   sequelize,

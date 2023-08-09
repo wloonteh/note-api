@@ -86,9 +86,10 @@ async function updateNote(req, res) {
     note.title = title || note.title;
     note.content = content || note.content;
     await note.save();
+    logger.info("updated")
 
     // Invalidate the cache after updating a new note
-    await redisService.invalidate(noteId);
+    await redisService.del(noteId);
 
     res.json(note);
   } catch (err) {
@@ -112,9 +113,10 @@ async function deleteNote(req, res) {
 
     // Delete the note from the database
     await note.destroy();
+    logger.info("Deleted")
 
     // Invalidate the cache after delete note
-    await redisService.invalidate(noteId);
+    await redisService.del(noteId);
 
     res.json({ message: 'Note deleted successfully' });
   } catch (err) {

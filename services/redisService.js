@@ -3,13 +3,9 @@ const logger = require("./loggerService");
 class RedisService {
   constructor() {
     if (!RedisService.instance) {
-      this.client = this.createClient();
+      RedisService.instance = this.createClient();
     }
     return RedisService.instance;
-  }
-
-  connect(){
-    return this.client.connect()
   }
 
   createClient() {
@@ -29,48 +25,6 @@ class RedisService {
 
     return client;
   }
-
-  // Method to set a key-value pair in the cache
-  set(key, value, expiryInSeconds) {
-    return new Promise((resolve, reject) => {
-      this.client.setex(key, expiryInSeconds, value, (err, result) => {
-        if (err) {
-          reject(err);
-        } else {
-          logger.info("Set in cache")
-          resolve(result === 'OK');
-        }
-      });
-    });
-  }
-
-  get(key) {
-    return new Promise((resolve, reject) => {
-        this.client.get(key,(err, result) => {
-            if (err) {
-            reject(err);
-            } else {
-              logger.info("Get in cache")
-              resolve(result === 'OK');
-            }
-        });
-    });
-  }
-
-  // Method to invalidate (delete) a key from the cache
-  invalidate(key) {
-    return new Promise((resolve, reject) => {
-      this.client.del(key, (err, result) => {
-        if (err) {
-          reject(err);
-        } else {
-          logger.info("invalidated in cache")
-          resolve(result === 1); // 1 if the key was found and deleted, 0 otherwise
-        }
-      });
-    });
-  }
-
 }
 
 module.exports = new RedisService();
