@@ -7,22 +7,34 @@ services:
       dockerfile: Dockerfile
     ports:
       - '3000:3000'
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]  
+      interval: 30s
+      timeout: 10s
+      retries: 5
     depends_on:
       mysql:
         condition: service_healthy
       redis:
-        condition: service_started
+        condition: service_healthy
   redis:
     image: 'redis:7.0.12'
     container_name: redis
+    volumes:
+      - redis-data:/data
     ports:
       - '6379:6379'
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
   mysql:
     image: mysql:8.0
     container_name: mysql
     volumes:
-     - ./db/init:/docker-entrypoint-initdb.d/1.sql
-     - ./db/data:/var/lib/mysql
+     - ./db/init:/docker-entrypoint-initdb.d
+     - db-data:/var/lib/mysql
     restart: always
     ports:
       - "3306:3306"
@@ -33,3 +45,6 @@ services:
      test: ["CMD", 'mysqladmin', 'ping', '-h', 'localhost', '-u', 'root', '-p$$MYSQL_ROOT_PASSWORD' ]
      timeout: 20s
      retries: 10
+volumes:
+  redis-data:     
+  db-data:       
