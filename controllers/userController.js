@@ -1,4 +1,5 @@
-const jwt = require('jsonwebtoken');
+'use strict'
+
 const argon2 = require('argon2');
 const { userSchema } = require('../services/schemaValidator');
 const { User } = require('../services/databaseService');

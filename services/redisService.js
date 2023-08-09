@@ -1,5 +1,8 @@
+'use strict'
+
 const redis = require('redis');
 const logger = require("./loggerService");
+require('dotenv').config({ path: `./.env.${process.env.NODE_ENV}` })
 class RedisService {
   constructor() {
     if (!RedisService.instance) {
@@ -10,7 +13,7 @@ class RedisService {
 
   createClient() {
     const client = redis.createClient({
-        url: 'redis://redis:6379'
+        url: process.env.URL||'redis://redis:6379'
     });
 
     // Check if Redis is connected

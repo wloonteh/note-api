@@ -1,6 +1,9 @@
+'use strict'
+
 const jwt = require("jsonwebtoken");
 const logger = require("./loggerService");
-const SECRET = "JWT_SECRET_KEY"
+require('dotenv').config({ path: `./.env.${process.env.NODE_ENV}` })
+const SECRET = process.env.JWT_SECRET_KEY|| "JWT_SECRET_KEY"
 
 function authenticateToken(req, res, next) {
   const token = req.header("Authorization")
@@ -8,6 +11,7 @@ function authenticateToken(req, res, next) {
     return res.status(401).json({ error: "Access denied. Missing token." });
   }
 
+  //Splits "Bearer sampleToken" from Authorization
   jwt.verify(token.split(' ')[1], SECRET, (err, user) => {
     if (err) {
       logger.error(err)

@@ -1,7 +1,10 @@
+'use strict'
+
 const { Sequelize, DataTypes } = require('sequelize');
 const logger = require("./loggerService");
-const sequelize = new Sequelize('notes_app', 'root', 'password', {
-  host: 'mysql',
+require('dotenv').config()
+const sequelize = new Sequelize(process.env.DB_NAME||'notes_app',process.env.DB_USER ||'root',process.env.DB_PASSWORD|| 'password', {
+  host: process.env.DB_HOST ||'mysql',
   dialect: 'mysql'
   });
 

@@ -1,3 +1,6 @@
+'use strict'
+
+require('dotenv').config({ path: `./.env.${process.env.NODE_ENV}` })
 const express = require('express');
 const logger = require('./services/loggerService');
 const databaseService = require('./services/databaseService');
@@ -6,9 +9,8 @@ const { authenticateToken } = require('./services/authService');
 const bodyParser = require('body-parser');
 const userController = require('./controllers/userController');
 const noteController = require('./controllers/noteController');
-const port = 3000
+const port = process.env.SERVER_PORT || 3000
 const app = express();
-
 
 (async () => {
   await redisService.connect();

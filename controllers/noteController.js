@@ -1,3 +1,5 @@
+'use strict'
+
 const { Note } = require('../services/databaseService');
 const redisService = require('../services/redisService');
 const logger = require("../services/loggerService");
