@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 
 // Health Check Endpoint
 app.get('/health', async (req, res) => {
-  let redisHealth = redisService.isReady
+  let redisHealth = redisService.client.isReady
   let dbHealth = await databaseService.testConnection();
   res.json({ redis: redisHealth, database: dbHealth });
 });
