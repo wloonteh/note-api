@@ -17,7 +17,7 @@ async function testConnection() {
 }
 
 // Define the User model
-const User = sequelize.define('User', {
+const User = sequelize.define('users', {
   username: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -30,7 +30,7 @@ const User = sequelize.define('User', {
 });
 
 // Define the Note model
-const Note = sequelize.define('Note', {
+const Note = sequelize.define('notes', {
   type: {
     type: DataTypes.ENUM('personal', 'work'),
     allowNull: false,
