@@ -3,9 +3,13 @@ const logger = require("./loggerService");
 class RedisService {
   constructor() {
     if (!RedisService.instance) {
-      RedisService.instance = this.createClient();
+      this.client = this.createClient();
     }
     return RedisService.instance;
+  }
+
+  connect(){
+    return this.client.connect()
   }
 
   createClient() {
